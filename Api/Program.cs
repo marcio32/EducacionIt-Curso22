@@ -1,11 +1,14 @@
+using Data;
+
 namespace Api
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+           
             var builder = WebApplication.CreateBuilder(args);
-
+            ApplicationDbContext.ConnectionString = builder.Configuration.GetConnectionString("WebEducacionIt");
             // Add services to the container.
 
             builder.Services.AddControllers();
