@@ -13,7 +13,16 @@ namespace Data.Managers
     {
         public override async Task<List<Usuarios>> BuscarLista()
         {
-            return await contextoSingleton.Usuarios.ToListAsync();
+            return await contextoSingleton.Usuarios.Where(x => x.Activo == true).Include(x=> x.Roles).ToListAsync();
+        }
+
+        public override async Task<bool> Eliminar(Usuarios entidad)
+        {
+            contextoSingleton.Entry(entidad).State = EntityState.Modified;
+
+            var resultado = await contextoSingleton.SaveChangesAsync() > 0;
+            contextoSingleton.Entry(entidad).State = EntityState.Detached;
+            return resultado;
         }
     }
 }
