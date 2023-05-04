@@ -1,1 +1,59 @@
-﻿
+﻿$(document).ready(function () {
+    $('#usuarios').DataTable(
+        {
+            ajax: {
+                url: 'https://localhost:7175/api/Usuarios/BuscarUsuarios',
+                dataSrc: ""
+            },
+            columns: [
+                { data: 'id', title: 'Id' },
+                { data: 'nombre', title: 'Nombre' },
+                { data: 'apellido', title: 'Apellido' },
+                {
+                    data: function (data) {
+                        return moment(data.fecha_Nacimiento).format('DD/MM/YYYY');
+                    }, title: 'Fecha de Nacimiento'
+                },
+                { data: 'mail', title: 'Mail' },
+                { data: 'roles.nombre', title: 'Rol' },
+                {
+                    data: function (data) {
+                        console.log(data);
+                        return data.activo == true ? "Si" : "No";
+                    }, title: 'Activo'
+                },
+                {
+                    data: function (data) {
+                        var botones =
+                            `<td><a href='javascript:EditarUsuario(${JSON.stringify(data)})'/><i class="fa-solid fa-pen-to-square fa-shake editar-usuario"></i></td>` +
+                            `<td><a href='javascript:EliminarUsuario(${JSON.stringify(data)})'/><i class="fa-solid fa-trash fa-bounce eliminar-usuario"></i></td>`;
+                        return botones;
+                    }
+                }
+
+            ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+            },
+        }
+    );
+});
+
+
+function GuardarUsuario() {
+    debugger
+    $("#usuariosAddPartial").html("");
+
+    $.ajax({
+        type: "GET",
+        url: "/Usuarios/UsuariosAddPartial",
+        data: "",
+        contentType:"application/json",
+        dataType: "html",
+        success: function (data) {
+            $("#usuariosAddPartial").html(data);
+            $("#usuarioModal").modal('show');
+        }
+       
+    });
+}
