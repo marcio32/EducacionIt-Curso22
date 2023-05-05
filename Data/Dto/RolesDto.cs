@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Data.Dto
 {
-    internal class RolesDto
+    public class RolesDto
     {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public bool Activo { get; set; }
     }
 }

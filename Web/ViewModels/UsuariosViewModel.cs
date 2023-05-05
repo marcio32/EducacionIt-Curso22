@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Data.Dto;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.ViewModels
 {
@@ -13,5 +15,21 @@ namespace Web.ViewModels
         public int Id_Rol { get; set; }
         public int? Codigo { get; set; }
         public bool Activo { get; set; }
+
+        public IEnumerable<SelectListItem> Lista_Roles { get; set; }
+
+        public static implicit operator UsuariosViewModel(UsuariosDto usuarioDto)
+        {
+            var usuarioViewModel = new UsuariosViewModel();
+            usuarioViewModel.Id =  usuarioDto.Id;
+            usuarioViewModel.Nombre = usuarioDto.Nombre;
+            usuarioViewModel.Apellido = usuarioDto.Apellido;
+            usuarioViewModel.Fecha_Nacimiento = usuarioDto.Fecha_Nacimiento;
+            usuarioViewModel.Mail = usuarioDto.Mail;
+            usuarioViewModel.Id_Rol = usuarioDto.Id_Rol;
+            usuarioViewModel.Clave = usuarioDto.Clave;
+            usuarioViewModel.Activo = usuarioDto.Activo;
+            return usuarioViewModel;
+        }
     }
 }

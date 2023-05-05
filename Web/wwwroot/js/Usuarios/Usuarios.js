@@ -25,8 +25,8 @@
                 {
                     data: function (data) {
                         var botones =
-                            `<td><a href='javascript:EditarUsuario(${JSON.stringify(data)})'/><i class="fa-solid fa-pen-to-square fa-shake editar-usuario"></i></td>` +
-                            `<td><a href='javascript:EliminarUsuario(${JSON.stringify(data)})'/><i class="fa-solid fa-trash fa-bounce eliminar-usuario"></i></td>`;
+                            `<td><a href='javascript:EditarUsuario(${JSON.stringify(data)})'/><i class="fa-solid fa-pen-to-square editar-usuario"></i></td>` +
+                            `<td><a href='javascript:EliminarUsuario(${JSON.stringify(data)})'/><i class="fa-solid fa-trash eliminar-usuario"></i></td>`;
                         return botones;
                     }
                 }
@@ -41,7 +41,6 @@
 
 
 function GuardarUsuario() {
-    debugger
     $("#usuariosAddPartial").html("");
 
     $.ajax({
@@ -56,4 +55,42 @@ function GuardarUsuario() {
         }
        
     });
+}
+
+function EditarUsuario(data) {
+    $("#usuariosAddPartial").html("");
+
+    $.ajax({
+        type: "POST",
+        url: "/Usuarios/UsuariosAddPartial",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: "html",
+        success: function (data) {
+            $("#usuariosAddPartial").html(data);
+            $("#usuarioModal").modal('show');
+        }
+
+    });
+}
+
+function EliminarUsuario(data) {
+    Swal.fire({
+        title: 'Estas por eliminar un usuario',
+        text: "Quieres eliminar el usuario?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Eliminado!',
+                'El usuario se elimino correctamente.',
+                'success'
+            )
+        }
+    })
 }

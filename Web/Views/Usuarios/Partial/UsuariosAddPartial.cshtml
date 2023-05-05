@@ -1,10 +1,79 @@
-﻿
+﻿@model Web.ViewModels.UsuariosViewModel
+
 <div class="modal fade" id="usuarioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle">Alta y/o modificación de Usuarios.</h5>
             </div>
+
+            @using (Html.BeginForm("GuardarUsuario", "/Usuarios", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Nombre</label>
+                            @Html.EditorFor(x=> x.Nombre, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-control-label">Apellido</label>
+                            @Html.EditorFor(x=> x.Apellido, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Fecha de Nacimiento</label>
+                            @Html.EditorFor(x=> x.Fecha_Nacimiento, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-control-label">Mail</label>
+                            @Html.EditorFor(x=> x.Mail, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Contraseña</label>
+                            @Html.EditorFor(x=> x.Clave, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-control-label">Rol</label>
+                            <select name="Id_Rol" id="Id_Rol" class="form-control">
+                                <option value="">Selecciona...</option>
+                                @{
+                                    foreach(var item in Model.Lista_Roles)
+                                    {
+                                        if(Model.Id_Rol != null && item.Value == Model.Id_Rol.ToString())
+                                        {
+                                            <option value=@item.Value selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                             <option value=@item.Value>@item.Text</option>
+                                        }
+                                }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Activo</label>
+                            @Html.CheckBoxFor(x=> x.Activo, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
+                </div>
+            }
         </div>
     </div>
 </div>
