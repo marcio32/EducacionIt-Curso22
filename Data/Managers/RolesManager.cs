@@ -17,9 +17,13 @@ namespace Data.Managers
             return await contextoSingleton.Roles.Where(x => x.Activo == true).ToListAsync();
         }
 
-        public override Task<bool> Eliminar(Roles entidad)
+        public override async Task<bool> Eliminar(Roles entidad)
         {
-            throw new NotImplementedException();
+            contextoSingleton.Entry(entidad).State = EntityState.Modified;
+
+            var resultado = await contextoSingleton.SaveChangesAsync() > 0;
+            contextoSingleton.Entry(entidad).State = EntityState.Detached;
+            return resultado;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Api.Controllers
             return await _services.Guardar(usuarioDto);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("EliminarUsuario")]
         public async Task<bool> EliminarUsuario(UsuariosDto usuariosDto)
         {

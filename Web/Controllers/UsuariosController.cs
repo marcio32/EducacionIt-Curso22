@@ -56,5 +56,12 @@ namespace Web.Controllers
             baseApi.PostToApi("Usuarios/GuardarUsuario", usuarioDto);
             return View("~/Views/Usuarios/Usuarios.cshtml");
         }
+
+        public IActionResult EliminarUsuario([FromBody] UsuariosDto usuarioDto)
+        {
+            var baseApi = new BaseApi(_httpClient);
+            baseApi.PostToApi("Usuarios/EliminarUsuario", usuarioDto);
+            return View("~/Views/Usuarios/Usuarios.cshtml");
+        }
     }
 }

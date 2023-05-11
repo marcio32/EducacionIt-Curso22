@@ -1,5 +1,7 @@
-﻿$(document).ready(function () {
-    $('#usuarios').DataTable(
+﻿var tablaUsuarios;
+
+$(document).ready(function () {
+    tablaUsuarios = $('#usuarios').DataTable(
         {
             ajax: {
                 url: 'https://localhost:7175/api/Usuarios/BuscarUsuarios',
@@ -59,7 +61,6 @@ function GuardarUsuario() {
 
 function EditarUsuario(data) {
     $("#usuariosAddPartial").html("");
-
     $.ajax({
         type: "POST",
         url: "/Usuarios/UsuariosAddPartial",
@@ -70,7 +71,6 @@ function EditarUsuario(data) {
             $("#usuariosAddPartial").html(data);
             $("#usuarioModal").modal('show');
         }
-
     });
 }
 
@@ -86,11 +86,23 @@ function EliminarUsuario(data) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire(
-                'Eliminado!',
-                'El usuario se elimino correctamente.',
-                'success'
-            )
+
+            $.ajax({
+                type: "POST",
+                url: "/Usuarios/EliminarUsuario",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                dataType: "html",
+                success: function (data) {
+                    Swal.fire(
+                        'Eliminado!',
+                        'El usuario se elimino correctamente.',
+                        'success'
+                    )
+                    tablaUsuarios.ajax.reload();
+                }
+            });
+            
         }
     })
 }

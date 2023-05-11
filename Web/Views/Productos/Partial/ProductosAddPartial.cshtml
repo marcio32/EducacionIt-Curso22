@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Web.ViewModels.ProductosViewModel
+
+<div class="modal fade" id="productoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Alta y/o modificación de Productos.</h5>
+            </div>
+
+            @using (Html.BeginForm("GuardarProducto", "/Productos", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @Html.HiddenFor(x=> x.Id)
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Descripcion</label>
+                            @Html.EditorFor(x=> x.Descripcion, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-control-label">Precio</label>
+                            @Html.EditorFor(x=> x.Precio, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Stock</label>
+                            @Html.EditorFor(x=> x.Stock, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-control-label">Imagen</label>
+                            @Html.EditorFor(x=> x.Imagen, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Activo</label>
+                            @Html.CheckBoxFor(x=> x.Activo, new {htmlAttributes = new {@class = "form-control"} })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
