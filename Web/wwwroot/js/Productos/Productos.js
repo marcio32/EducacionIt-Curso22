@@ -12,7 +12,15 @@ $(document).ready(function () {
                 { data: 'descripcion', title: 'Descripcion' },
                 { data: 'precio', title: 'Precio' },
                 { data: 'stock', title: 'Stock' },
-                { data: 'imagen', title: 'Imagen' },
+                {
+                    data: 'imagen', render: function (data) {
+                        if (data != null) {
+                            return '<img src="data:image/jpeg;base64,' + data + '"width="100x" height="100px">';
+                        } else {
+                            return '<img src="/images/noexiste.jpg" width="100x" height="100px">';
+                        }
+
+                    } ,title: 'Imagen' },
                 {
                     data: function (data) {
                         console.log(data);

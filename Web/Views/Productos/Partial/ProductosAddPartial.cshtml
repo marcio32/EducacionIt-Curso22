@@ -7,10 +7,11 @@
                 <h5 class="modal-title" id="exampleModalCenterTitle">Alta y/o modificación de Productos.</h5>
             </div>
 
-            @using (Html.BeginForm("GuardarProducto", "/Productos", FormMethod.Post))
+            @using (Html.BeginForm("GuardarProducto", "/Productos", FormMethod.Post, new {enctype="multipart/form-data"} ))
             {
                 <div class="modal-body">
                     @Html.HiddenFor(x=> x.Id)
+                    @Html.HiddenFor(x=> x.Imagen)
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-control-label">Descripcion</label>
@@ -31,7 +32,7 @@
 
                         <div class="col-md-6">
                             <label class="form-control-label">Imagen</label>
-                            @Html.EditorFor(x=> x.Imagen, new {htmlAttributes = new {@class = "form-control"} })
+                            @Html.EditorFor(x=> x.Imagen_Archivo, new {htmlAttributes = new {@class = "form-control"} })
                         </div>
                     </div>
 

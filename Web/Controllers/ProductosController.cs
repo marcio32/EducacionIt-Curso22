@@ -35,6 +35,18 @@ namespace Web.Controllers
         public IActionResult GuardarProducto(ProductosDto productoDto)
         {
             var baseApi = new BaseApi(_httpClient);
+
+            if(productoDto.Imagen_Archivo != null && productoDto.Imagen_Archivo.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    productoDto.Imagen_Archivo.CopyTo(ms);
+                    var imagenBytes = ms.ToArray();
+                    productoDto.Imagen = Convert.ToBase64String(imagenBytes);
+                }
+            }
+            productoDto.Imagen_Archivo = null;
+
             baseApi.PostToApi("Productos/GuardarProducto", productoDto);
             return View("~/Views/Productos/Productos.cshtml");
         }

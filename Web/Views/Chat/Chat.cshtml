@@ -1,5 +1,19 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+<div style="text-align:center"><h1>Chat Online</h1></div>
+
+<div class="row justify-content-center">
+    <div class="mb-2" style="display:flex;flex-direction:column;align-items:center;">
+        <input class="form-control mb-1" style="width:40%" type="text" placeholder="Introduzca su Usuario" id="usuario"/>
+        <textarea class="form-control mb-1" style="width:40%;" placeholder="Introduzca su Mensaje" id="mensaje"></textarea>
+
+        <div>
+            <buton class="btn btn-success mt-2" type="button" id="btnEnviar">Enviar</buton>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-10">
+        <ul class="list-group" id="mensajes"></ul>
+    </div>
+</div>

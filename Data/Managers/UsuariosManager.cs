@@ -16,6 +16,11 @@ namespace Data.Managers
             return await contextoSingleton.Usuarios.Where(x => x.Activo == true).Include(x=> x.Roles).ToListAsync();
         }
 
+        public async Task<Usuarios> BuscarUsuario(string mail, string clave)
+        {
+            return await contextoSingleton.Usuarios.Where(x => x.Activo == true && x.Mail == mail && x.Clave == clave).Include(x=> x.Roles).FirstOrDefaultAsync();
+        }
+
         public override async Task<bool> Eliminar(Usuarios entidad)
         {
             contextoSingleton.Entry(entidad).State = EntityState.Modified;

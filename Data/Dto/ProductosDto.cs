@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Data.Dto
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public string? Imagen { get; set; }
+        public IFormFile? Imagen_Archivo { get; set; }
         public bool Activo { get; set; }
     }
 }

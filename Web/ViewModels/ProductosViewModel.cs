@@ -9,6 +9,7 @@ namespace Web.ViewModels
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public string? Imagen { get; set; }
+        public IFormFile? Imagen_Archivo { get; set; }
         public bool Activo { get; set; }
 
         public static implicit operator ProductosViewModel(ProductosDto productoDto)

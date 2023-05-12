@@ -18,6 +18,11 @@ namespace Api.Services
             return buscarLista;
         }
 
+        public async Task<Usuarios> BuscarUsuario(string mail, string clave)
+        {
+            return await _manager.BuscarUsuario(mail, clave);
+        }
+
         public async Task<bool> Guardar(UsuariosDto usuariosDto)
         {   
             var usuario = new Usuarios();
