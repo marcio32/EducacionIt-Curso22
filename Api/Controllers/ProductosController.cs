@@ -2,10 +2,12 @@
 using Data.Entities;
 using Data.Dto;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
-    [ApiController]
+	[Authorize]
+	[ApiController]
     [Route("api/[controller]")]
     public class ProductosController : Controller
     {
@@ -22,14 +24,15 @@ namespace Api.Controllers
             return await _services.BuscarLista();
         }
 
-        [HttpPost]
+		[HttpPost]
         [Route("GuardarProducto")]
         public async Task<bool> GuardarProducto(ProductosDto productoDto)
         {
             return await _services.Guardar(productoDto);
         }
 
-        [HttpPost]
+		
+		[HttpPost]
         [Route("EliminarProducto")]
         public async Task<bool> EliminarProducto(ProductosDto productosDto)
         {

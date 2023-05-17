@@ -25,7 +25,7 @@ namespace Web.Controllers
             var login = await baseApi.PostToApi("Authenticate/Login", loginDto);
             var resultadoLogin = login as OkObjectResult;
 
-            if(resultadoLogin.Value == "") {
+            if(resultadoLogin == null) {
                 return RedirectToAction("Login", "Login");
             }
             else

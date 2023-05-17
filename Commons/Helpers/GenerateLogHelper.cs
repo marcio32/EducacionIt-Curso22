@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Commons.Helpers
 {
-    internal class GenerateLogHelper
+    public class GenerateLogHelper
     {
     }
 }

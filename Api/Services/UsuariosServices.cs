@@ -1,4 +1,5 @@
-﻿using Data.Dto;
+﻿using Commons.Helpers;
+using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 
@@ -15,6 +16,10 @@ namespace Api.Services
         public async Task<List<Usuarios>> BuscarLista()
         {
             var buscarLista = await _manager.BuscarLista();
+            //foreach (var x in buscarLista)
+            //{
+            //    x.Clave = EncryptHelper.Desencriptar(x.Clave);
+            //}
             return buscarLista;
         }
 
@@ -27,6 +32,7 @@ namespace Api.Services
         {   
             var usuario = new Usuarios();
             usuario = usuariosDto;
+            usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
             return await _manager.Guardar(usuario, usuario.Id);
         }
 

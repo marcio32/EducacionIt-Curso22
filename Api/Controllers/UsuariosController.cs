@@ -2,10 +2,11 @@
 using Data.Entities;
 using Data.Dto;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("api/[controller]")]
     public class UsuariosController : Controller
     {
