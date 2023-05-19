@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace Web
 {
     public class Program
@@ -14,6 +16,23 @@ namespace Web
                 config.BaseAddress = new Uri(builder.Configuration["ServiceUrl:ApiUrl"]);
             });
 
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme= CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
+            {
+                config.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    context.Response.Redirect("https://localhost:7168");
+                    return Task.CompletedTask;
+                };
+            });
+
+            builder.Services.AddSession();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,7 +48,10 @@ namespace Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

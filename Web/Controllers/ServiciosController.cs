@@ -1,5 +1,6 @@
 ﻿using Data.Base;
 using Data.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -7,7 +8,8 @@ using Web.ViewModels;
 
 namespace Web.Controllers
 {
-    public class ServiciosController : Controller
+	[Authorize]
+	public class ServiciosController : Controller
     {
         private readonly IHttpClientFactory _httpClient;
 
@@ -35,14 +37,17 @@ namespace Web.Controllers
         public IActionResult GuardarServicio(ServiciosDto servicioDto)
         {
             var baseApi = new BaseApi(_httpClient);
-            baseApi.PostToApi("Servicios/GuardarServicio", servicioDto);
+
+            var token = HttpContext.Session.GetString("Token");
+            baseApi.PostToApi("Servicios/GuardarServicio", servicioDto, token);
             return View("~/Views/Servicios/Servicios.cshtml");
         }
 
         public IActionResult EliminarServicio([FromBody] ServiciosDto servicioDto)
         {
             var baseApi = new BaseApi(_httpClient);
-            baseApi.PostToApi("Servicios/EliminarServicio", servicioDto);
+            var token = HttpContext.Session.GetString("Token");
+            baseApi.PostToApi("Servicios/EliminarServicio", servicioDto, token);
             return View("~/Views/Servicios/Servicios.cshtml");
         }
     }

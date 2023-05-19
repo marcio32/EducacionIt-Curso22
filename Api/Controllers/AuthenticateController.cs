@@ -38,7 +38,7 @@ namespace Api.Controllers
                     new Claim(ClaimTypes.Role, validarUsuario.Roles.Nombre)
                 };
                 var token = CrearToken(claims);
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString());
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString() + ";" + validarUsuario.Nombre + ";" + validarUsuario.Roles.Nombre + ";" + validarUsuario.Mail);
             }
             else
             {

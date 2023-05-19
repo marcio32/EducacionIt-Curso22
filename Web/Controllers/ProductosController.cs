@@ -1,5 +1,6 @@
 ﻿using Data.Base;
 using Data.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -7,7 +8,8 @@ using Web.ViewModels;
 
 namespace Web.Controllers
 {
-    public class ProductosController : Controller
+	[Authorize]
+	public class ProductosController : Controller
     {
         private readonly IHttpClientFactory _httpClient;
 
@@ -46,15 +48,17 @@ namespace Web.Controllers
                 }
             }
             productoDto.Imagen_Archivo = null;
+            var token = HttpContext.Session.GetString("Token");
 
-            baseApi.PostToApi("Productos/GuardarProducto", productoDto);
+            baseApi.PostToApi("Productos/GuardarProducto", productoDto, token);
             return View("~/Views/Productos/Productos.cshtml");
         }
 
         public IActionResult EliminarProducto([FromBody] ProductosDto productoDto)
         {
             var baseApi = new BaseApi(_httpClient);
-            baseApi.PostToApi("Productos/EliminarProducto", productoDto);
+            var token = HttpContext.Session.GetString("Token");
+            baseApi.PostToApi("Productos/EliminarProducto", productoDto, token);
             return View("~/Views/Productos/Productos.cshtml");
         }
     }

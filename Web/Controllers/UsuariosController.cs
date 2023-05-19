@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
-    public class UsuariosController : Controller
+	[Authorize]
+	public class UsuariosController : Controller
     {
 
         private readonly IHttpClientFactory _httpClient;
@@ -18,15 +20,15 @@ namespace Web.Controllers
         }
 
         public IActionResult Usuarios()
-        {
+		{
             return View();
         }
-
-        public async Task<IActionResult> UsuariosAddPartial([FromBody] UsuariosDto usuarioDto)
+		public async Task<IActionResult> UsuariosAddPartial([FromBody] UsuariosDto usuarioDto)
         {
             var usuariosViewModel = new UsuariosViewModel();
             var baseApi = new BaseApi(_httpClient);
-            var roles = await baseApi.GetToApi("Roles/BuscarRoles");
+            var token = HttpContext.Session.GetString("Token");
+            var roles = await baseApi.GetToApi("Roles/BuscarRoles", token);
             var resultadoRoles = roles as OkObjectResult;
 
             if(usuarioDto != null)
@@ -53,14 +55,16 @@ namespace Web.Controllers
         public IActionResult GuardarUsuario(UsuariosDto usuarioDto)
         {
             var baseApi = new BaseApi(_httpClient);
-            baseApi.PostToApi("Usuarios/GuardarUsuario", usuarioDto);
+            var token = HttpContext.Session.GetString("Token");
+            baseApi.PostToApi("Usuarios/GuardarUsuario", usuarioDto, token);
             return View("~/Views/Usuarios/Usuarios.cshtml");
         }
 
         public IActionResult EliminarUsuario([FromBody] UsuariosDto usuarioDto)
         {
             var baseApi = new BaseApi(_httpClient);
-            baseApi.PostToApi("Usuarios/EliminarUsuario", usuarioDto);
+            var token = HttpContext.Session.GetString("Token");
+            baseApi.PostToApi("Usuarios/EliminarUsuario", usuarioDto, token);
             return View("~/Views/Usuarios/Usuarios.cshtml");
         }
     }

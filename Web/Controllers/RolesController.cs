@@ -1,5 +1,6 @@
 ﻿using Data.Base;
 using Data.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -7,7 +8,8 @@ using Web.ViewModels;
 
 namespace Web.Controllers
 {
-    public class RolesController : Controller
+	[Authorize]
+	public class RolesController : Controller
     {
         private readonly IHttpClientFactory _httpClient;
 
@@ -35,14 +37,16 @@ namespace Web.Controllers
         public IActionResult GuardarRol(RolesDto rolDto)
         {
             var baseApi = new BaseApi(_httpClient);
-            baseApi.PostToApi("Roles/GuardarRol", rolDto);
+            var token = HttpContext.Session.GetString("Token");
+            baseApi.PostToApi("Roles/GuardarRol", rolDto, token);
             return View("~/Views/Roles/Roles.cshtml");
         }
 
         public IActionResult EliminarRol([FromBody] RolesDto rolDto)
         {
             var baseApi = new BaseApi(_httpClient);
-            baseApi.PostToApi("Roles/EliminarRol", rolDto);
+            var token = HttpContext.Session.GetString("Token");
+            baseApi.PostToApi("Roles/EliminarRol", rolDto, token);
             return View("~/Views/Roles/Roles.cshtml");
         }
     }
