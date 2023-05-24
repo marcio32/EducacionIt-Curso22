@@ -1,3 +1,4 @@
+using Api.Middlewares;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -90,6 +91,8 @@ namespace Api
 			app.UseAuthorization();
 
 			app.UseCors(MyAllowSpecificOrigin);
+
+			app.UseMiddleware<ExceptionMiddleware>();
 
 			app.MapControllers();
 

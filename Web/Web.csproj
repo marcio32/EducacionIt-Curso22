@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Middlewares\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Api\Api.csproj" />
+    <ProjectReference Include="..\Commons\Commons.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 

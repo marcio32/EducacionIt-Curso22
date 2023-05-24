@@ -36,6 +36,11 @@
 								<input id="password-field" type="password" class="form-control" placeholder="Contraseña" name="Clave" required>
 								<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 							</div>
+
+							<div class="form-group">
+								<p class="error-login">@ViewBag.ErrorLogin</p>
+							</div>
+
 							<div class="form-group">
 								<button type="submit" class="form-control btn btn-primary submit px-3">Iniciar Sesion</button>
 							</div>

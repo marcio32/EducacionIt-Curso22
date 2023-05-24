@@ -1,4 +1,5 @@
 ﻿using Api.Services;
+using Commons.Helpers;
 using Data.Dto;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -21,23 +22,23 @@ namespace Api.Controllers
         [Route("BuscarRoles")]
         public async Task<List<Roles>> BuscarRoles()
         {
-            return await _services.BuscarLista();
-        }
+				return await _services.BuscarLista();
+		}
 
 		[Authorize]
 		[HttpPost]
         [Route("GuardarRol")]
         public async Task<bool> GuardarUsuario(RolesDto rolDto)
         {
-            return await _services.Guardar(rolDto);
-        }
+			return await _services.Guardar(rolDto);
+		}
 
 		[Authorize]
 		[HttpPost]
         [Route("EliminarRol")]
         public async Task<bool> EliminarUsuario(RolesDto rolDto)
         {
-            return await _services.Eliminar(rolDto);
-        }
+			return await _services.Eliminar(rolDto);
+		}
     }
 }

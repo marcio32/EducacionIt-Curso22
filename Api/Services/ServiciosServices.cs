@@ -22,14 +22,13 @@ namespace Api.Services
         {
             var servicio = new Servicios();
             servicio = servicioDto;
-            return await _manager.Guardar(servicio, servicio.Id);
+            return await _manager.Guardar(servicio);
         }
 
         public async Task<bool> Eliminar(ServiciosDto servicioDto)
         {
             var servicio = new Servicios();
             servicio = servicioDto;
-            servicio.Activo = false;
             return await _manager.Eliminar(servicio);
         }
     }

@@ -1,3 +1,4 @@
+using Web.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web
@@ -52,6 +53,8 @@ namespace Web
             app.UseAuthorization();
 
             app.UseSession();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.MapControllerRoute(
                 name: "default",

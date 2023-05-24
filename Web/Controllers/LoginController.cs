@@ -1,4 +1,5 @@
-﻿using Data.Base;
+﻿using Commons.Helpers;
+using Data.Base;
 using Data.Dto;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -24,45 +25,55 @@ namespace Web.Controllers
 
         public IActionResult Login()
         {
+            if (TempData["ErrorLogin"] != null)
+            {
+                ViewBag.ErrorLogin = TempData["ErrorLogin"].ToString();
+
+			}
             return View();
         }
 
         public async Task<IActionResult> Ingresar(LoginDto loginDto)
         {
-            var baseApi = new BaseApi(_httpClient);
-            var login = await baseApi.PostToApi("Authenticate/Login", loginDto);
-            var resultadoLogin = login as OkObjectResult;
+         
+				var baseApi = new BaseApi(_httpClient);
+				var login = await baseApi.PostToApi("Authenticate/Login", loginDto);
+				var resultadoLogin = login as OkObjectResult;
 
-            if(resultadoLogin != null) {
-                var resultadoSplit = resultadoLogin.Value.ToString().Split(';');
-                ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                Claim claimNombre = new(ClaimTypes.Name, resultadoSplit[1]);
-                Claim claimRole = new(ClaimTypes.Role, resultadoSplit[2]);
-                Claim claimEmail = new(ClaimTypes.Email, resultadoSplit[3]);
+				if (resultadoLogin != null)
+				{
+					var resultadoSplit = resultadoLogin.Value.ToString().Split(';');
+					ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+					Claim claimNombre = new(ClaimTypes.Name, resultadoSplit[1]);
+					Claim claimRole = new(ClaimTypes.Role, resultadoSplit[2]);
+					Claim claimEmail = new(ClaimTypes.Email, resultadoSplit[3]);
 
-                identity.AddClaim(claimNombre);
-                identity.AddClaim(claimRole);
-                identity.AddClaim(claimEmail);
+					identity.AddClaim(claimNombre);
+					identity.AddClaim(claimRole);
+					identity.AddClaim(claimEmail);
 
-                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+					ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
-                {
-                    ExpiresUtc = DateTime.Now.AddHours(24)
-                });
+					await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
+					{
+						ExpiresUtc = DateTime.Now.AddHours(24)
+					});
 
-                HttpContext.Session.SetString("Token", resultadoSplit[0]);
-                var homeViewModel = new HomeViewModel();
-				homeViewModel.Token = resultadoSplit[0];
-                homeViewModel.AjaxUrl = _configuration["ServiceUrl:AjaxUrl"];
+					HttpContext.Session.SetString("Token", resultadoSplit[0]);
+					var homeViewModel = new HomeViewModel();
+					homeViewModel.Token = resultadoSplit[0];
+					homeViewModel.AjaxUrl = _configuration["ServiceUrl:AjaxUrl"];
 
-				return View("~/Views/Home/Index.cshtml", homeViewModel);
-				
-            }
-            else
-            {
-				return RedirectToAction("Login", "Login");
-			}
+					return View("~/Views/Home/Index.cshtml", homeViewModel);
+
+				}
+				else
+				{
+					//ViewBag.ErrorLogin = "La contraseña o el mail no coinciden";
+					TempData["ErrorLogin"] = "La contraseña o el mail no coinciden";
+					return RedirectToAction("Login", "Login");
+				}
+			
         }
 
         public async Task<IActionResult> CerrarSesion()

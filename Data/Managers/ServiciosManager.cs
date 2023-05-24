@@ -14,16 +14,17 @@ namespace Data.Managers
 
         public override async Task<List<Servicios>> BuscarLista()
         {
-            return await contextoSingleton.Servicios.Where(x => x.Activo == true).ToListAsync();
+           return contextoSingleton.Servicios.FromSqlRaw("ObtenerServicios").ToList();
+        }
+
+        public async Task<bool> Guardar(Servicios entidad)
+        {
+            return  Convert.ToBoolean(contextoSingleton.Database.ExecuteSqlRaw($"GuardaroActualizarServicios '{entidad.Id}', '{entidad.Nombre}', '{entidad.Activo}'"));
         }
 
         public override async Task<bool> Eliminar(Servicios entidad)
         {
-            contextoSingleton.Entry(entidad).State = EntityState.Modified;
-
-            var resultado = await contextoSingleton.SaveChangesAsync() > 0;
-            contextoSingleton.Entry(entidad).State = EntityState.Detached;
-            return resultado;
+            return Convert.ToBoolean(contextoSingleton.Database.ExecuteSqlRaw($"Eliminarservicio '{entidad.Id}'"));
         }
     }
 }
