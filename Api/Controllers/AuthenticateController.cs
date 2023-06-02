@@ -48,6 +48,27 @@ namespace Api.Controllers
 
 		}
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+		public async Task<IActionResult> LoginGoogle(LoginDto loginDto) {
+            var validarUsuario = await _usuariosServices.BuscarUsuario(loginDto.Mail);
+            if(validarUsuario != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, validarUsuario.Mail),
+					   new Claim(ClaimTypes.DateOfBirth, validarUsuario.Fecha_Nacimiento.ToString()),
+					new Claim(ClaimTypes.Role, validarUsuario.Roles.Nombre)
+                };
+
+                var token = CrearToken(claims);
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token).ToString() + ";" + validarUsuario.Nombre + ";" + validarUsuario.Roles.Nombre + ";" + validarUsuario.Mail);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
         private JwtSecurityToken CrearToken(List<Claim> datos)
         {
             var firma =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Firma"]));

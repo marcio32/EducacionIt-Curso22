@@ -1,5 +1,8 @@
 using Web.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Data;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Web
 {
@@ -8,9 +11,9 @@ namespace Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+			ApplicationDbContext.ConnectionString = builder.Configuration.GetConnectionString("WebEducacionIt");
+			// Add services to the container.
+			builder.Services.AddControllersWithViews();
 
             builder.Services.AddHttpClient("useApi", config =>
             {
@@ -30,9 +33,26 @@ namespace Web
                     context.Response.Redirect("https://localhost:7168");
                     return Task.CompletedTask;
                 };
+            }).AddGoogle(GoogleDefaults.AuthenticationScheme, option =>
+            {
+                option.ClientId = builder.Configuration["Authentication:Google:Client_id"];
+                option.ClientSecret = builder.Configuration["Authentication:Google:Client_secret"];
+                option.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
             });
 
             builder.Services.AddSession();
+
+            builder.Services.AddAuthorization(option =>
+            {
+                option.AddPolicy("ADMINISTRADORES", policy =>
+                {
+                    policy.RequireRole("Administrador");
+                });
+                option.AddPolicy("USUARIOS", policy =>
+                {
+                    policy.RequireRole("Usuario");
+                });
+            });
 
             var app = builder.Build();
 
@@ -43,6 +63,8 @@ namespace Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

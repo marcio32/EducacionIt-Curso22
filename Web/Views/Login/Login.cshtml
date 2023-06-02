@@ -49,13 +49,13 @@
 									<a href="#" style="color: #fff">Crear cuenta</a>
 								</div>
 								<div class="w-50 text-md-right">
-									<a href="#" style="color: #fff">Olvidaste tu contraseña?</a>
+									<a asp-controller="Login" asp-action="OlvidoClave" style="color: #fff">Olvidaste tu contraseña?</a>
 								</div>
 							</div>
 						</form>
 						<p class="w-100 text-center">&mdash; Ingresar con &mdash;</p>
 						<div class="social d-flex text-center">
-							<a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-google mr-2"></span> Google</a>
+							<a asp-controller="Login" asp-action="LoginGoogle" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-google mr-2"></span> Google</a>
 						</div>
 					</div>
 				</div>

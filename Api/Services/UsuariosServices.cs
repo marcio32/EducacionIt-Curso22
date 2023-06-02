@@ -23,16 +23,27 @@ namespace Api.Services
             return buscarLista;
         }
 
-        public async Task<Usuarios> BuscarUsuario(string mail, string clave)
+		public async Task<Usuarios> BuscarUsuario(string mail)
+		{
+			return await _manager.BuscarUsuario(mail);
+		}
+
+		public async Task<Usuarios> BuscarUsuario(string mail, string clave)
         {
             return await _manager.BuscarUsuario(mail, clave);
         }
 
         public async Task<bool> Guardar(UsuariosDto usuariosDto)
-        {   
-            var usuario = new Usuarios();
+        {
+
+			var buscarUsuario = _manager.BuscarUsuarioRepetido(usuariosDto.Mail);
+            if(buscarUsuario.Result != null && usuariosDto.Id == 0)
+            {
+                return false;
+            }
+			var usuario = new Usuarios();
             usuario = usuariosDto;
-            usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
+			usuario.Clave = EncryptHelper.Encriptar(usuario.Clave);
             return await _manager.Guardar(usuario, usuario.Id);
         }
 

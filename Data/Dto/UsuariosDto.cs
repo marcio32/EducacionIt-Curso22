@@ -14,6 +14,7 @@ namespace Data.Dto
         public DateTime Fecha_Nacimiento { get; set; }
         public string Mail { get; set; }
         public string Clave { get; set; }
+        public string? ClaveEncriptada { get; set; }
         public int Id_Rol { get; set; }
         public int? Codigo { get; set; }
         public bool Activo { get; set; }

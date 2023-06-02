@@ -10,6 +10,6 @@ namespace Data.Dto
     {
         public string? Mail { get; set; }
         public string? Clave { get; set; }
-        public string? Codigo { get; set; }
+        public int? Codigo { get; set; }
     }
 }

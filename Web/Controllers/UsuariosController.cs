@@ -5,6 +5,7 @@ using Web.ViewModels;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using Commons.Helpers;
 
 namespace Web.Controllers
 {
@@ -23,6 +24,8 @@ namespace Web.Controllers
 		{
             return View();
         }
+
+     
 		public async Task<IActionResult> UsuariosAddPartial([FromBody] UsuariosDto usuarioDto)
         {
             var usuariosViewModel = new UsuariosViewModel();
@@ -33,7 +36,8 @@ namespace Web.Controllers
 
             if(usuarioDto != null)
             {
-                usuariosViewModel = usuarioDto;
+                usuarioDto.ClaveEncriptada = usuarioDto.Clave;
+				usuariosViewModel = usuarioDto;
             }
 
             if(resultadoRoles != null)
@@ -54,6 +58,10 @@ namespace Web.Controllers
 
         public IActionResult GuardarUsuario(UsuariosDto usuarioDto)
         {
+            if(usuarioDto.Id > 0 && usuarioDto.Clave == usuarioDto.ClaveEncriptada)
+            {
+                usuarioDto.Clave = EncryptHelper.Desencriptar(usuarioDto.Clave);
+            }
             var baseApi = new BaseApi(_httpClient);
             var token = HttpContext.Session.GetString("Token");
             baseApi.PostToApi("Usuarios/GuardarUsuario", usuarioDto, token);
