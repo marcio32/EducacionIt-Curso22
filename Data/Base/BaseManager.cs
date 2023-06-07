@@ -32,7 +32,7 @@ namespace Data.Base
         #endregion
 
         #region Metodos Publicos
-        public async Task<bool> Guardar(T entidad, int id)
+        public async Task<bool> Guardar(T entidad, int id = 0)
         {
             if (id == 0)
                 contextoSingleton.Entry(entidad).State = EntityState.Added;

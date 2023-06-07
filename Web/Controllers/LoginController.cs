@@ -30,7 +30,8 @@ namespace Web.Controllers
 			_smtpClient = new SmtpClient();
         }
 
-        public IActionResult Login()
+		#region Views
+		public IActionResult Login()
         {
             if (TempData["ErrorLogin"] != null)
             {
@@ -50,7 +51,14 @@ namespace Web.Controllers
 			return View("~/Views/Login/RecuperarCuenta.cshtml");
 		}
 
-        public async Task<IActionResult> Ingresar(LoginDto loginDto)
+		public IActionResult CrearCuenta()
+		{
+			return View("~/Views/Login/CrearCuenta.cshtml");
+		}
+		#endregion
+
+		#region Funciones
+		public async Task<IActionResult> Ingresar(LoginDto loginDto)
         {
          
 				var baseApi = new BaseApi(_httpClient);
@@ -216,5 +224,26 @@ namespace Web.Controllers
 				return RedirectToAction("Login", "Login");
 			}
 		}
-    }
+
+		public async Task<IActionResult> CrearUsuario(CrearUsuarioDto usuario)
+		{
+			var baseApi = new BaseApi(_httpClient);
+			var resultado = await baseApi.PostToApi("Usuarios/CrearUsuario", usuario, "");
+			var resultadoCrearUsuario = resultado as OkObjectResult;
+
+			if(resultadoCrearUsuario != null && resultadoCrearUsuario.Value.ToString() == "true")
+			{
+				TempData["ErrorLogin"] = "Se ha creado su cuenta correctamente";
+				return RedirectToAction("Login", "Login");
+			}
+			else
+			{
+				TempData["ErrorLogin"] = "No se ha podido crear la cuenta. Contacte con sistemas";
+				return RedirectToAction("Login", "Login");
+			}
+			return null;
+		}
+
+		#endregion
+	}
 }

@@ -39,5 +39,13 @@ namespace Api.Controllers
 		{
 			return await _services.Eliminar(usuariosDto);
 		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[Route("CrearUsuario")]
+		public async Task<bool>CrearUsuario(CrearUsuarioDto crearUsuarioDto)
+		{
+			return await _services.CrearUsuario(crearUsuarioDto);
+		}
 	}
 }

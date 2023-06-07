@@ -18,9 +18,9 @@ namespace Data.Entities
         public string Mail { get; set; }
         public string Clave { get; set; }
         [ForeignKey("Roles")]
-        public int Id_Rol { get; set; }
+        public int? Id_Rol { get; set; }
         public int? Codigo { get; set; }
-        public bool Activo { get; set; }
+        public bool? Activo { get; set; }
 
         public Roles? Roles { get; set; }
 
@@ -37,5 +37,19 @@ namespace Data.Entities
             usuario.Clave = usuariosDto.Clave;
             return usuario;
         }
-    }
+
+		public static implicit operator Usuarios(CrearUsuarioDto crearUsuariosDto)
+		{
+			var usuario = new Usuarios();
+			usuario.Nombre = crearUsuariosDto.Nombre;
+			usuario.Apellido = crearUsuariosDto.Apellido;
+			usuario.Mail = crearUsuariosDto.Mail;
+			usuario.Fecha_Nacimiento = crearUsuariosDto.Fecha_Nacimiento;
+			usuario.Clave = crearUsuariosDto.Clave;
+			usuario.Id_Rol = 2;
+			usuario.Codigo = null;
+			usuario.Activo = true;
+			return usuario;
+		}
+	}
 }

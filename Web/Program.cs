@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Data;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
+using Web.Chat;
 
 namespace Web
 {
@@ -14,6 +15,8 @@ namespace Web
 			ApplicationDbContext.ConnectionString = builder.Configuration.GetConnectionString("WebEducacionIt");
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+
+            builder.Services.AddSignalR();
 
             builder.Services.AddHttpClient("useApi", config =>
             {
@@ -82,6 +85,8 @@ namespace Web
                 name: "default",
                 pattern: "{controller=Login}/{action=Login}/{id?}");
 
+            app.MapHub<ChatHub>("/Chat");
+            
             app.Run();
         }
     }
