@@ -4,7 +4,7 @@ namespace Web.Chat
 {
     public class ChatHub : Hub
     {
-        //
+        
         public async Task EnviarMensaje(int room, string usuario, string mensaje)
         {
             await Clients.Group(room.ToString()).SendAsync("RecibirMensaje", usuario, mensaje);
