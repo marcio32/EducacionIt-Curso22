@@ -10,6 +10,7 @@ namespace Web.Chat
             await Clients.Group(room.ToString()).SendAsync("RecibirMensaje", usuario, mensaje);
         }
 
+        //Agrego al usuario al grupo
         public async Task AgregarAlGrupo(string room)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, room);
