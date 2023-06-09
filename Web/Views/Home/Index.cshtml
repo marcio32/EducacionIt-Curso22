@@ -1,8 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Web.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Curso EducacionIt 22/03/2023";
 }
 
+@Html.HiddenFor(x=> x.Token)
+@Html.HiddenFor(x=> x.AjaxUrl)
+
 <div class="text-center">
-    <h1 class="display-4">Bienvenido</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Bienvenidos</h1>
+    <p>Al proyecto del curso EducacionIt 22/03/2023.</p>
 </div>
+
+<script src="~/js/Home/Home.js"></script>

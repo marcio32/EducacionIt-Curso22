@@ -1,0 +1,10 @@
+﻿.editar-servicio {
+    color: blue;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.eliminar-servicio {
+    color: red;
+    font-size: 20px;
+}

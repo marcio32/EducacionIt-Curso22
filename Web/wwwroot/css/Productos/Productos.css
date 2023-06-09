@@ -1,0 +1,10 @@
+﻿.editar-producto {
+    color: blue;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.eliminar-producto {
+    color: red;
+    font-size: 20px;
+}
