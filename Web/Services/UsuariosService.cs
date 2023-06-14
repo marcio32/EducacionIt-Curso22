@@ -1,10 +1,11 @@
 ﻿using Data.Dto;
 using Data.Entities;
 using Data.Managers;
+using Web.Interfaces;
 
 namespace Web.Services
 {
-    public class UsuariosService
+    public class UsuariosService : IUsuariosService
     {
         private readonly UsuariosManager _manager;
 

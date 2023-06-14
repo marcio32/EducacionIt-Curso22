@@ -1,10 +1,11 @@
-﻿using Data.Dto;
+﻿using Api.Interfaces;
+using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 
 namespace Api.Services
 {
-    public class ProductosServices
+    public class ProductosServices : IProductosService
     {
         private readonly ProductosManager _manager;
         public ProductosServices()
