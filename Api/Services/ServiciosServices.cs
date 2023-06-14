@@ -1,11 +1,12 @@
-﻿using Data.Dto;
+﻿using Api.Interfaces;
+using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 using Microsoft.AspNetCore.Identity;
 
 namespace Api.Services
 {
-    public class ServiciosServices
+    public class ServiciosServices: IServiciosServices
     {
         private readonly ServiciosManager _manager;
         public ServiciosServices()

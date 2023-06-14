@@ -1,11 +1,12 @@
-﻿using Commons.Helpers;
+﻿using Api.Interfaces;
+using Commons.Helpers;
 using Data.Dto;
 using Data.Entities;
 using Data.Managers;
 
 namespace Api.Services
 {
-    public class UsuariosServices
+    public class UsuariosServices : IUsuariosService
     {
         private readonly UsuariosManager _manager;
         public UsuariosServices()
